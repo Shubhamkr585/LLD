@@ -1,3 +1,8 @@
+
+#include "logger_factory.hpp"
+#include "ilogger.hpp"
+#include "debug_logger.hpp"
+#include "info_logger.hpp"
 #include "info_logger_factory.hpp"
 #include "debug_logger_factory.hpp"
 #include "error_logger_factory.hpp"
@@ -22,3 +27,5 @@ int main() {
 
     return 0;
 }
+
+

@@ -1,0 +1,21 @@
+# ===== Build artifacts =====
+*.o
+*.exe
+*.out
+*.obj
+
+# ===== CMake / build folders =====
+build/
+cmake-build-*/
+
+# ===== IDE / Editor =====
+.vscode/
+.idea/
+*.swp
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== PlantUML (tool files only) =====
+*.puml
