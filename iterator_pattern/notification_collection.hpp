@@ -2,7 +2,6 @@
 #define NOTIFICATION_COLLECTION_HPP
 
 #include "collection_interface.hpp"
-#include "notification_iterator.hpp" // Needs to know about the specific iterator
 #include <vector>
 #include <string>
 
@@ -10,15 +9,31 @@ class NotificationCollection : public ICollection {
 private:
     vector<string> notifications;
 
+    // Nested Iterator Class: Hides implementation details
+    class NotificationIterator : public IIterator {
+    private:
+        vector<string>& collection; // Reference to the private data
+        int position;
+
+    public:
+        NotificationIterator(vector<string>& data) : collection(data), position(0) {}
+
+        bool hasNext() override {
+            return position < collection.size();
+        }
+
+        string next() override {
+            if (this->hasNext()) {
+                return collection[position++];
+            }
+            return "";
+        }
+    };
+
 public:
    
     void addNotification(string msg) override {
         notifications.push_back(msg);
-    }
-
-    // Returns the inner vector (needed by the iterator)
-    vector<string>& getData() {
-        return notifications;
     }
 
     // Factory Method implementation

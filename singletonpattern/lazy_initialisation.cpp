@@ -7,64 +7,64 @@
 
 using namespace std;
 
-class DatabaseConnection {
-private:
-    // 1. The static pointer
-    static DatabaseConnection* instance;
+// class DatabaseConnection {
+// private:
+//     // 1. The static pointer
+//     static DatabaseConnection* instance;
     
-    // Private constructor (we add a print here to see when it runs)
-    DatabaseConnection() {
-        cout << "CRITICAL FAILURE: A new DatabaseConnection object was created! at address: " << this << endl;
-    }
+//     // Private constructor (we add a print here to see when it runs)
+//     DatabaseConnection() {
+//         cout << "CRITICAL FAILURE: A new DatabaseConnection object was created! at address: " << this << endl;
+//     }
 
-public:
-    // 2. The Broken Lazy Initialization (No Mutex)
-    static DatabaseConnection* getInstance() {
-        if (instance == nullptr) {
+// public:
+//     // 2. The Broken Lazy Initialization (No Mutex)
+//     static DatabaseConnection* getInstance() {
+//         if (instance == nullptr) {
             
-            // We force this thread to sleep for 100ms right here.
-            // This simulates the OS switching context to another thread 
-            // at the worst possible moment.
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+//             // We force this thread to sleep for 100ms right here.
+//             // This simulates the OS switching context to another thread 
+//             // at the worst possible moment.
+//             std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-            // In a race condition, multiple threads reach this line
-            // because they all passed the "if (instance == nullptr)" check
-            // while the first one was sleeping/working.
-            instance = new DatabaseConnection();
-        }
-        return instance;
-    }
-};
+//             // In a race condition, multiple threads reach this line
+//             // because they all passed the "if (instance == nullptr)" check
+//             // while the first one was sleeping/working.
+//             instance = new DatabaseConnection();
+//         }
+//         return instance;
+//     }
+// };
 
-// Initialize static member
-DatabaseConnection* DatabaseConnection::instance = nullptr;
+// // Initialize static member
+// DatabaseConnection* DatabaseConnection::instance = nullptr;
 
-// A simple function for threads to run
-void threadTask() {
-    DatabaseConnection* db = DatabaseConnection::getInstance();
-}
+// // A simple function for threads to run
+// void threadTask() {
+//     DatabaseConnection* db = DatabaseConnection::getInstance();
+// }
 
-int main() {
-    cout << "--- Starting Race Condition Simulation ---" << endl;
+// int main() {
+//     cout << "--- Starting Race Condition Simulation ---" << endl;
 
-    vector<thread> threads;
+//     vector<thread> threads;
 
-    // Launch 5 threads at arguably the "same time"
-    for (int i = 0; i < 5; i++) {
-        threads.push_back(thread(threadTask));
-    }
+//     // Launch 5 threads at arguably the "same time"
+//     for (int i = 0; i < 5; i++) {
+//         threads.push_back(thread(threadTask));
+//     }
 
-    // Wait for all to finish
-    for (auto& t : threads) {
-        t.join();
-    }
+//     // Wait for all to finish
+//     for (auto& t : threads) {
+//         t.join();
+//     }
 
-    cout << "--- Simulation Finished ---" << endl;
+//     cout << "--- Simulation Finished ---" << endl;
     
-    // In a correct Singleton, you should only see the "CRITICAL FAILURE" message ONCE.
-    // Here, you will likely see it 5 times.
-    return 0;
-}
+//     // In a correct Singleton, you should only see the "CRITICAL FAILURE" message ONCE.
+//     // Here, you will likely see it 5 times.
+//     return 0;
+// }
 
 
 
@@ -98,7 +98,7 @@ public:
             if (instance == nullptr) {
                 
                 // Simulate the delay again to prove it works
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                std::this_thread::sleep_for(std::chrono::milliseconds(10000));
                 
                 instance = new DatabaseConnection();
             }
@@ -131,3 +131,13 @@ int main() {
     cout << "--- Simulation Finished ---" << endl;
     return 0;
 }
+
+
+// Mayesr's Singleton
+
+
+// static DatabaseConnection& getInstance() {
+//     // C++11 guarantees this line is thread-safe and runs only once.
+//     static DatabaseConnection instance; 
+//     return instance;
+// }

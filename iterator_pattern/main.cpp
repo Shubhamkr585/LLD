@@ -1,7 +1,6 @@
 #include <iostream>
 #include "linked_list_notification_collection.hpp"
 #include "notification_collection.hpp"
-#include "notification_iterator.hpp"
 
 
 using namespace std;

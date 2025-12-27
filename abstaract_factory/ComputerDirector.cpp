@@ -14,3 +14,4 @@ void ComputerDirector::buildOfficePC(DesktopBuilder& builder) {
            .setRAM(8)
            .setStorage(512);
 }
+
