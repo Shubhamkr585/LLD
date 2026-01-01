@@ -1,5 +1,8 @@
 #pragma once
 #include "elevator.hpp"
+#include<bits/stdc++.h>
+using namespace std;
+
 
 class ElevatorMgr {
     ElevatorMgr() {}
@@ -15,4 +18,5 @@ class ElevatorMgr {
         // And ElevatorSystem as friend class so that 
         // no other class can initialise elevators
         void initialiseElevators(int noOfElevators); 
+        std::vector<Elevator*> getElevators();
 };  

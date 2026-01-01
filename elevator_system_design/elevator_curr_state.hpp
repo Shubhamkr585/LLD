@@ -2,9 +2,10 @@
 #include "common.hpp"
 
 class ElevatorCurrState {
-    int currFloor;
-    ELEVATOR_DIRECTION currDirection;
-    ELEVATOR_STATUS currStatus;
+        int currFloor;
+        ELEVATOR_DIRECTION currDirection;
+        ELEVATOR_STATUS currStatus;
+
     public:
         ElevatorCurrState() {
             currFloor = 0;
@@ -14,19 +15,19 @@ class ElevatorCurrState {
         int getCurrFloor() {
             return currFloor;
         }
-        void setCurrFloor(int floorNum) {
-            currFloor = floorNum;
+        void setCurrFloor(int floor) {
+            currFloor = floor;
         }
         ELEVATOR_DIRECTION getCurrDirection() {
             return currDirection;
         }
         void setCurrDirection(ELEVATOR_DIRECTION direction) {
             currDirection = direction;
-        } 
+        }
         ELEVATOR_STATUS getCurrStatus() {
             return currStatus;
         }
         void setCurrStatus(ELEVATOR_STATUS status) {
             currStatus = status;
-        } 
+        }
 };

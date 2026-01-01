@@ -1,40 +1,53 @@
 #pragma once
 #include "elevator_curr_state.hpp"
-#include "elevator_curr_state.hpp"
+#include "elevator_control_strategy.hpp"
 #include "fcfs_ele_ctrl_strat.hpp"
 #include "look_algo_ele_ctrl_strat.hpp"
 #include "scan_algo_ele_ctrl_strat.hpp"
 #include "seek_time_ele_ctrl_strat.hpp"
 
-//Controls movement, fan, light, alarm for elevator
+#include <set>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+// Controls movement, fan, light, alarm for elevator
 class ElevatorController {
         ElevatorCurrState* state;
         ElevatorControlStrategy* controlStrategy;
-        int nextStoppingPoint;
+        
+        // Use a set to keep destinations sorted and unique. 
+        // This is crucial for the LOOK algorithm.
+        std::set<int> destinations; 
 
     public:
         ElevatorController() {
             state = new ElevatorCurrState();
+            // Setting default control strategy
+            controlStrategy = new LookAlgoElevatorControlStrategy();
+        }
+
+        ~ElevatorController() {
+            delete state;
+            delete controlStrategy;
+        }
+
+        void step();
+        void addStop(int floor);
+        int getCurrFloor() { return state->getCurrFloor(); }
+        ELEVATOR_DIRECTION getElevatorDirection() { return state->getCurrDirection(); }
+        ELEVATOR_STATUS getElevatorState() { return state->getCurrStatus(); }
+
+        void setControlStrategy(ElevatorControlStrategy* strategy) {
+            if (controlStrategy) delete controlStrategy;
+            controlStrategy = strategy;
         }
 
         void setCurrFloor(int floorNum) {
-            //Controller should check if this is stopping point
-            //If yes, should stop using stop method
             state->setCurrFloor(floorNum);
         }
 
-        void moveElevatorToFloor(int floorNum) {
-            controlStrategy = new FirstComeFirstServeElevatorControlStrategy();
-            //We are just determining the nex stop as when requests come
-            //The movement is being taken by hardware. 
-            //Controller sees the next stop and tells hardware move to this floor
-            int nextStop = controlStrategy->determineNextStop(floorNum);
-
-            if(nextStop > state->getCurrFloor())
-                state->setCurrDirection(ELEVATOR_DIRECTION::UP);
-            else if(nextStop < state->getCurrFloor())
-                state->setCurrDirection(ELEVATOR_DIRECTION::DOWN);
-            if(nextStop != state->getCurrFloor())
-                state->setCurrStatus(ELEVATOR_STATUS::MOVING);
-        }
+        void moveElevatorToFloor(int floorNum);
 };

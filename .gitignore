@@ -19,3 +19,7 @@ Thumbs.db
 
 # ===== PlantUML (tool files only) =====
 *.puml
+
+#===== Directory =========
+Chess-Low-Level-Design/
+IRCTC-Low-Level-design/

@@ -14,10 +14,27 @@ class Elevator {
         int getElevatorId() {
             return elevatorId;
         } 
+        ElevatorController* getController() {
+            return controller;
+        }
         void moveToFloor(int floorNum) {
             controller->moveElevatorToFloor(floorNum);
         }
         void notifyFloorNumUpdate(int floorNum) {
             controller->setCurrFloor(floorNum);
+        }
+
+        // New methods for simulation
+        void step() {
+            controller->step();
+        }
+        int getCurrentFloor() {
+            return controller->getCurrFloor();
+        }
+        ELEVATOR_DIRECTION getElevatorDirection() {
+            return controller->getElevatorDirection();
+        }
+        ELEVATOR_STATUS getElevatorState() {
+            return controller->getElevatorState();
         }
 };
